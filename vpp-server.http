@@ -1,0 +1,6 @@
+@vpp_server_HostAddress = http://localhost:5023
+
+GET {{vpp_server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
