@@ -20,7 +20,7 @@ namespace vpp_server.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProducts(string name = null, int? minPrice = null, int? maxPrice = null, int? catalogId = null, string sortBy = null, string sortOrder = "asc")
+        public async Task<IActionResult> GetProducts(string name = null, int? minPrice = null, int? maxPrice = null, int? catalogId = null, string sortBy = null, string sortOrder = "asc", int pageNumber = 1, int pageSize = 10)
         {
             try
             {
@@ -66,7 +66,9 @@ namespace vpp_server.Controllers
                     query = query.OrderBy(p => p.CreateDate);
                 }
 
-                var products = await query.ToListAsync();
+                var totalItems = await query.CountAsync();
+                var products = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+
                 var productDtos = products.Select(p => new ProductResponseDto
                 {
                     Id = p.Id,
@@ -81,7 +83,16 @@ namespace vpp_server.Controllers
                     UpdateDate = p.UpdateDate
                 }).ToList();
 
-                return Ok(new ResponseDto { Result = productDtos, IsSuccess = true });
+                var response = new PagedResponseDto<ProductResponseDto>
+                {
+                    Items = productDtos,
+                    PageNumber = pageNumber,
+                    PageSize = pageSize,
+                    TotalItems = totalItems,
+                    TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize)
+                };
+
+                return Ok(new ResponseDto { Result = response, IsSuccess = true });
             }
             catch (Exception ex)
             {
@@ -181,9 +192,13 @@ namespace vpp_server.Controllers
                     return NotFound(new ResponseDto { IsSuccess = false, Message = "Product not found" });
                 }
 
-                _context.Products.Remove(product);
+                product.IsDeleted = true;
+                product.UpdateDate = DateTime.UtcNow;
+
+                _context.Entry(product).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
-                return Ok(new ResponseDto { IsSuccess = true, Message = "Product deleted successfully" });
+
+                return Ok(new ResponseDto { IsSuccess = true, Message = "Product marked as deleted successfully" });
             }
             catch (Exception ex)
             {

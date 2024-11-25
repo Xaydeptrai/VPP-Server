@@ -69,7 +69,7 @@ namespace vpp_server.Controllers
 
         [Authorize(Roles = "Customer")]
         [HttpGet("user-orders")]
-        public async Task<IActionResult> GetUserOrders([FromQuery] string? trackingNumber, [FromQuery] string? sortBy = "OrderDate")
+        public async Task<IActionResult> GetUserOrders([FromQuery] string? trackingNumber, [FromQuery] string? sortBy = "OrderDate", int pageNumber = 1, int pageSize = 10)
         {
             var user = _userManager.Users.FirstOrDefault(u => u.Email == _userManager.GetUserId(User));
             if (string.IsNullOrEmpty(user?.Id))
@@ -92,7 +92,8 @@ namespace vpp_server.Controllers
                 _ => query.OrderByDescending(oh => oh.OrderDate)
             };
 
-            var orders = await query.ToListAsync();
+            var totalItems = await query.CountAsync();
+            var orders = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
 
             var orderResponses = orders.Select(order => new OrderHeaderDto
             {
@@ -108,7 +109,16 @@ namespace vpp_server.Controllers
                 TrackingNumber = order.TrackingNumber
             }).ToList();
 
-            return Ok(new ResponseDto { IsSuccess = true, Message = "User orders retrieved successfully", Result = orderResponses });
+            var response = new PagedResponseDto<OrderHeaderDto>
+            {
+                Items = orderResponses,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalItems = totalItems,
+                TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize)
+            };
+
+            return Ok(new ResponseDto { Result = response, IsSuccess = true, Message = "User orders retrieved successfully" });
         }
 
         [Authorize(Roles = "Customer")]
@@ -179,9 +189,10 @@ namespace vpp_server.Controllers
 
             return Ok(new ResponseDto { IsSuccess = true, Message = "Order canceled successfully" });
         }
+
         [Authorize(Roles = "Admin")]
         [HttpGet("admin-orders")]
-        public async Task<IActionResult> GetAllOrdersForAdmin([FromQuery] string? trackingNumber, [FromQuery] DateTime? orderDate, [FromQuery] string? sortBy = "OrderDate")
+        public async Task<IActionResult> GetAllOrdersForAdmin([FromQuery] string? trackingNumber, [FromQuery] DateTime? orderDate, [FromQuery] string? sortBy = "OrderDate", int pageNumber = 1, int pageSize = 10)
         {
             var query = _context.OrderHeaders.Include(oh => oh.User).AsQueryable();
 
@@ -201,7 +212,8 @@ namespace vpp_server.Controllers
                 _ => query.OrderByDescending(oh => oh.OrderDate)
             };
 
-            var orders = await query.ToListAsync();
+            var totalItems = await query.CountAsync();
+            var orders = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
 
             var orderResponses = orders.Select(order => new OrderHeaderDto
             {
@@ -217,7 +229,16 @@ namespace vpp_server.Controllers
                 TrackingNumber = order.TrackingNumber,
             }).ToList();
 
-            return Ok(new ResponseDto { IsSuccess = true, Message = "All orders retrieved successfully", Result = orderResponses });
+            var response = new PagedResponseDto<OrderHeaderDto>
+            {
+                Items = orderResponses,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalItems = totalItems,
+                TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize)
+            };
+
+            return Ok(new ResponseDto { Result = response, IsSuccess = true, Message = "All orders retrieved successfully" });
         }
         private string GenerateTrackingNumber()
         {

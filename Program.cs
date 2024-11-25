@@ -51,6 +51,8 @@ using (var scope = app.Services.CreateScope())
     context.Database.Migrate(); // Apply any pending migrations
 
     await DataSeeder.SeedRolesAndAdminAsync(services, builder.Configuration);
+    await DataSeeder.SeedCatalogsAsync(services);
+    await DataSeeder.SeedProductsAsync(services);
 }
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
