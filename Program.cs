@@ -42,6 +42,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -65,6 +76,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication(); // Ensure this line is present
 app.UseAuthorization();
+
+app.UseCors("AllowAll");
 
 app.MapControllers();
 
