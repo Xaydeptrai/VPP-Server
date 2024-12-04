@@ -266,5 +266,12 @@ namespace vpp_server.Controllers
             return Ok(new ResponseDto { IsSuccess = true, Message = "Order updated successfully" });
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet("total")]
+        public async Task<IActionResult> GetTotal()
+        {
+            var totalItems = await _context.OrderHeaders.CountAsync();
+            return Ok(new ResponseDto { IsSuccess = true, Result = totalItems, Message = "Count all orders successfully" });
+        }
     }
 }
