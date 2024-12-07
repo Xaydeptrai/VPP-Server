@@ -100,6 +100,39 @@ namespace vpp_server.Controllers
             }
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProductById(int id)
+        {
+            try
+            {
+                var product = await _context.Products.Include(p => p.Catalog).FirstOrDefaultAsync(p => p.Id == id);
+                if (product == null)
+                {
+                    return NotFound(new ResponseDto { IsSuccess = false, Message = "Product not found" });
+                }
+
+                var productDto = new ProductResponseDto
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Price = product.Price,
+                    Description = product.Description,
+                    ImageUrl = product.ImageUrl,
+                    Stock = product.Stock,
+                    CatalogId = product.CatalogId,
+                    CatalogName = product.Catalog.Name,
+                    CreateDate = product.CreateDate,
+                    UpdateDate = product.UpdateDate
+                };
+
+                return Ok(new ResponseDto { Result = productDto, IsSuccess = true });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ResponseDto { IsSuccess = false, Message = ex.Message });
+            }
+        }
+
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddProduct([FromBody] ProductRequestDto productDto)
