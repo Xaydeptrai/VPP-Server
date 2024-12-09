@@ -154,7 +154,7 @@ namespace vpp_server.Controllers
                 {
                     Id = od.ProductId,
                     Name = od.Product.Name,
-                    ImageUrl = od.Product.ImageUrl,
+                    ImageUrl = od.Product.ImageUrl1,
                     Quantity = od.Quantity,
                     Price = od.Price
                 }).ToList()

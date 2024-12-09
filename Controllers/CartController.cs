@@ -113,7 +113,7 @@ namespace vpp_server.Controllers
             {
                 Id = ci.ProductId,
                 Name = ci.Product.Name,
-                ImageUrl = ci.Product.ImageUrl,
+                ImageUrl = ci.Product.ImageUrl1,
                 Quantity = ci.Quantity,
                 Price = ci.Product.Price
             }).ToList();

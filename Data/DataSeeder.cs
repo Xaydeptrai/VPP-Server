@@ -49,21 +49,11 @@ namespace vpp_server.Data
             {
                 var catalogs = new[]
                 {
-                    new Catalog { Name = "Bìa hồ sơ" },
-                    new Catalog { Name = "Bút kí" },
-                    new Catalog { Name = "Bút bi" },
-                    new Catalog { Name = "Sổ" },
-                    new Catalog { Name = "Băng keo" },
-                    new Catalog { Name = "Bảng tên, dây đeo" },
-                    new Catalog { Name = "Bút chì gỗ" },
-                    new Catalog { Name = "Hoá đơn" },
-                    new Catalog { Name = "Giấy các loại" },
-                    new Catalog { Name = "Bấm kim" },
-                    new Catalog { Name = "Máy tính" },
-                    new Catalog { Name = "Thước" },
-                    new Catalog { Name = "Kẹp giấy" },
-                    new Catalog { Name = "Bút lông" },
-                    new Catalog { Name = "Kệ tài liệu" }
+                    new Catalog { Name = "Bìa hồ sơ", ImageUrl ="https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain"},
+                    new Catalog { Name = "Bút viết", ImageUrl ="https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain" },
+                    new Catalog { Name = "Kẹp giấy", ImageUrl ="https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain" },
+                    new Catalog { Name = "Giấy các loại", ImageUrl ="https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain" },
+                    new Catalog { Name = "Dụng cụ khác", ImageUrl ="https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain" },
                 };
 
                 context.Catalogs.AddRange(catalogs);
@@ -79,10 +69,10 @@ namespace vpp_server.Data
             {
                 var products = new[]
                 {
-                    new Product { Name = "Product 1", Price = 100, Description = "Description 1", ImageUrl = "http://example.com/image1.jpg", Stock = 10, CatalogId = 1 },
-                    new Product { Name = "Product 2", Price = 200, Description = "Description 2", ImageUrl = "http://example.com/image2.jpg", Stock = 20, CatalogId = 2 },
-                    new Product { Name = "Product 3", Price = 300, Description = "Description 3", ImageUrl = "http://example.com/image3.jpg", Stock = 30, CatalogId = 3 },
-                    new Product { Name = "Product 4", Price = 400, Description = "Description 4", ImageUrl = "http://example.com/image4.jpg", Stock = 40, CatalogId = 4 }
+                    new Product { Name = "Product 1", Price = 100, Description = "Description 1", ImageUrl1 = "https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain", Stock = 10, CatalogId = 1 },
+                    new Product { Name = "Product 2", Price = 200, Description = "Description 2", ImageUrl1 = "https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain", Stock = 20, CatalogId = 2 },
+                    new Product { Name = "Product 3", Price = 300, Description = "Description 3", ImageUrl1 = "https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain", Stock = 30, CatalogId = 3 },
+                    new Product { Name = "Product 4", Price = 400, Description = "Description 4", ImageUrl1 = "https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain", Stock = 40, CatalogId = 4 }
                 };
 
                 context.Products.AddRange(products);

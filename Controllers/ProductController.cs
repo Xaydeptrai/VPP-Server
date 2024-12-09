@@ -75,7 +75,7 @@ namespace vpp_server.Controllers
                     Name = p.Name,
                     Price = p.Price,
                     Description = p.Description,
-                    ImageUrl = p.ImageUrl,
+                    ImageUrl1 = p.ImageUrl1,
                     Stock = p.Stock,
                     CatalogId = p.CatalogId,
                     CatalogName = p.Catalog.Name,
@@ -117,7 +117,10 @@ namespace vpp_server.Controllers
                     Name = product.Name,
                     Price = product.Price,
                     Description = product.Description,
-                    ImageUrl = product.ImageUrl,
+                    ImageUrl1 = product.ImageUrl1,
+                    ImageUrl2 = product.ImageUrl2,
+                    ImageUrl3 = product.ImageUrl3,
+                    ImageUrl4 = product.ImageUrl4,
                     Stock = product.Stock,
                     CatalogId = product.CatalogId,
                     CatalogName = product.Catalog.Name,
@@ -150,7 +153,10 @@ namespace vpp_server.Controllers
                     Name = productDto.Name,
                     Price = productDto.Price,
                     Description = productDto.Description,
-                    ImageUrl = productDto.ImageUrl,
+                    ImageUrl1 = productDto.ImageUrl1,
+                    ImageUrl2 = productDto.ImageUrl2,
+                    ImageUrl3 = productDto.ImageUrl3,
+                    ImageUrl4 = productDto.ImageUrl4,
                     Stock = productDto.Stock,
                     CatalogId = productDto.CatalogId,
                     CreateDate = DateTime.UtcNow,
@@ -166,7 +172,10 @@ namespace vpp_server.Controllers
                     Name = product.Name,
                     Price = product.Price,
                     Description = product.Description,
-                    ImageUrl = product.ImageUrl,
+                    ImageUrl1 = product.ImageUrl1,
+                    ImageUrl2 = product.ImageUrl2,
+                    ImageUrl3 = product.ImageUrl3,
+                    ImageUrl4 = product.ImageUrl4,
                     Stock = product.Stock,
                     CatalogId = product.CatalogId,
                     CatalogName = catalog.Name,
@@ -197,7 +206,10 @@ namespace vpp_server.Controllers
                 product.Name = productDto.Name;
                 product.Price = productDto.Price;
                 product.Description = productDto.Description;
-                product.ImageUrl = productDto.ImageUrl;
+                product.ImageUrl1 = productDto.ImageUrl1;
+                product.ImageUrl2 = productDto.ImageUrl2;
+                product.ImageUrl3 = productDto.ImageUrl3;
+                product.ImageUrl4 = productDto.ImageUrl4;
                 product.Stock = productDto.Stock;
                 product.CatalogId = productDto.CatalogId;
                 product.UpdateDate = DateTime.UtcNow;

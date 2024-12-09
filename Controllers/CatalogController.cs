@@ -28,7 +28,8 @@ namespace vpp_server.Controllers
                 var catalogDtos = catalogs.Select(c => new CatalogResponseDto
                 {
                     Id = c.Id,
-                    Name = c.Name
+                    Name = c.Name,
+                    ImageUrl = c.ImageUrl
                 }).ToList();
 
                 return Ok(new ResponseDto { Result = catalogDtos, IsSuccess = true });
@@ -47,7 +48,8 @@ namespace vpp_server.Controllers
             {
                 var catalog = new Catalog
                 {
-                    Name = catalogDto.Name
+                    Name = catalogDto.Name,
+                    ImageUrl = catalogDto.ImageUrl
                 };
 
                 _context.Catalogs.Add(catalog);
@@ -56,7 +58,8 @@ namespace vpp_server.Controllers
                 var responseDto = new CatalogResponseDto
                 {
                     Id = catalog.Id,
-                    Name = catalog.Name
+                    Name = catalog.Name,
+                    ImageUrl = catalog.ImageUrl
                 };
 
                 return CreatedAtAction(nameof(GetCatalogs), new { id = catalog.Id }, new ResponseDto { Result = responseDto, IsSuccess = true });
@@ -80,6 +83,7 @@ namespace vpp_server.Controllers
                 }
 
                 catalog.Name = catalogDto.Name;
+                catalog.ImageUrl = catalogDto.ImageUrl;
 
                 _context.Entry(catalog).State = EntityState.Modified;
                 await _context.SaveChangesAsync();

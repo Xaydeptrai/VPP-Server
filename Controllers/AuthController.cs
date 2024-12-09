@@ -90,5 +90,69 @@ namespace vpp_server.Controllers
 
             return Ok(new ResponseDto { IsSuccess = true, Message = "Login successful", Result = new { token } });
         }
+
+        [Authorize]
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
+        {
+            var user = _userManager.Users.FirstOrDefault(u => u.Email == _userManager.GetUserId(User));
+            if (user == null)
+            {
+                return NotFound(new ResponseDto { IsSuccess = false, Message = "User not found" });
+            }
+
+            var result = await _userManager.ChangePasswordAsync(user, changePasswordDto.OldPassword, changePasswordDto.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(new ResponseDto { IsSuccess = false, Message = "Password change failed", Result = result.Errors });
+            }
+
+            return Ok(new ResponseDto { IsSuccess = true, Message = "Password changed successfully" });
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("admin/change-password")]
+        public async Task<IActionResult> AdminChangePassword([FromBody] AdminChangePasswordDto adminChangePasswordDto)
+        {
+            var user = await _userManager.FindByEmailAsync(adminChangePasswordDto.Email);
+            if (user == null)
+            {
+                return NotFound(new ResponseDto { IsSuccess = false, Message = "User not found" });
+            }
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, token, adminChangePasswordDto.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(new ResponseDto { IsSuccess = false, Message = "Password change failed", Result = result.Errors });
+            }
+
+            return Ok(new ResponseDto { IsSuccess = true, Message = "Password changed successfully" });
+        }
+
+        [Authorize]
+        [HttpGet("info")]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            var userId = _userManager.Users.FirstOrDefault(u => u.Email == _userManager.GetUserId(User))?.Id;
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound(new ResponseDto { IsSuccess = false, Message = "User not found" });
+            }
+
+            var userDto = new UserDto
+            {
+                Name = user.Name,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber
+            };
+
+            return Ok(new ResponseDto { IsSuccess = true, Result = userDto });
+        }
+
     }
 }
