@@ -70,6 +70,33 @@ namespace vpp_server.Controllers
             return Ok(new ResponseDto { IsSuccess = true, Message = "Admin registered successfully" });
         }
 
+        [HttpPost("admin/login")]
+        public async Task<IActionResult> AdminLogin([FromBody] LoginDto loginDto)
+        {
+            var user = await _userManager.FindByEmailAsync(loginDto.Email);
+            if (user == null)
+            {
+                return Unauthorized(new ResponseDto { IsSuccess = false, Message = "Invalid email or password" });
+            }
+
+            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
+
+            if (!result.Succeeded)
+            {
+                return Unauthorized(new ResponseDto { IsSuccess = false, Message = "Invalid email or password" });
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+            if (!roles.Contains("Admin"))
+            {
+                return Unauthorized(new ResponseDto { IsSuccess = false, Message = "Access denied" });
+            }
+
+            var token = await _jwtTokenGenerator.GenerateJwtToken(user);
+
+            return Ok(new ResponseDto { IsSuccess = true, Message = "Admin login successful", Result = new { token } });
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
