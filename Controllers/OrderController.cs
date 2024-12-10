@@ -121,7 +121,7 @@ namespace vpp_server.Controllers
             return Ok(new ResponseDto { Result = response, IsSuccess = true, Message = "User orders retrieved successfully" });
         }
 
-        [Authorize(Roles = "Customer")]
+        [Authorize]
         [HttpGet("details/{trackingNumber}")]
         public async Task<IActionResult> GetOrderDetailsByTrackingNumber(string trackingNumber)
         {
