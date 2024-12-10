@@ -76,6 +76,7 @@ namespace vpp_server.Controllers
                     Price = p.Price,
                     Description = p.Description,
                     ImageUrl1 = p.ImageUrl1,
+                    ImageUrl2 = p.ImageUrl2,
                     Stock = p.Stock,
                     CatalogId = p.CatalogId,
                     CatalogName = p.Catalog.Name,
