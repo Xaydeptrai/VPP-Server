@@ -282,12 +282,14 @@ namespace vpp_server.Controllers
             var totalOrdersToday = await _context.OrderHeaders.CountAsync(o => o.OrderDate.Date == today);
             var completedOrders = await _context.OrderHeaders.CountAsync(o => o.OrderStatus == OrderStatus.Delivered);
             var pendingOrders = await _context.OrderHeaders.CountAsync(o => o.OrderStatus != OrderStatus.Delivered);
+            var totalCsutomer = await _context.Users.CountAsync();
 
             var statistics = new
             {
                 TotalOrdersToday = totalOrdersToday,
                 CompletedOrders = completedOrders,
-                PendingOrders = pendingOrders
+                PendingOrders = pendingOrders,
+                TotalCsutomer = totalCsutomer
             };
 
             return Ok(new ResponseDto { IsSuccess = true, Result = statistics, Message = "Order statistics retrieved successfully" });
