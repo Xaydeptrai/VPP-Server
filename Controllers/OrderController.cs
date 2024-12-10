@@ -133,7 +133,7 @@ namespace vpp_server.Controllers
 
             var order = await _context.OrderHeaders.Include(oh => oh.OrderDetails)
                                                    .ThenInclude(od => od.Product)
-                                                   .FirstOrDefaultAsync(oh => oh.TrackingNumber.Contains(trackingNumber) && oh.UserId == user.Id);
+                                                   .FirstOrDefaultAsync(oh => oh.TrackingNumber.Contains(trackingNumber));
             if (order == null)
             {
                 return NotFound(new ResponseDto { IsSuccess = false, Message = "Order not found." });
