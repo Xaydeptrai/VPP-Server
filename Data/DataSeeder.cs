@@ -61,23 +61,23 @@ namespace vpp_server.Data
             }
         }
 
-        public static async Task SeedProductsAsync(IServiceProvider serviceProvider)
-        {
-            var context = serviceProvider.GetRequiredService<AppDbContext>();
+        //public static async Task SeedProductsAsync(IServiceProvider serviceProvider)
+        //{
+        //    var context = serviceProvider.GetRequiredService<AppDbContext>();
 
-            if (!context.Products.Any())
-            {
-                var products = new[]
-                {
-                    new Product { Name = "Product 1", Price = 100, Description = "Description 1", ImageUrl1 = "https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain", Stock = 10, CatalogId = 1 },
-                    new Product { Name = "Product 2", Price = 200, Description = "Description 2", ImageUrl1 = "https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain", Stock = 20, CatalogId = 2 },
-                    new Product { Name = "Product 3", Price = 300, Description = "Description 3", ImageUrl1 = "https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain", Stock = 30, CatalogId = 3 },
-                    new Product { Name = "Product 4", Price = 400, Description = "Description 4", ImageUrl1 = "https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain", Stock = 40, CatalogId = 4 }
-                };
+        //    if (!context.Products.Any())
+        //    {
+        //        var products = new[]
+        //        {
+        //            new Product { Name = "Product 1", Price = 100, Description = "Description 1", ImageUrl1 = "https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain", Stock = 10, CatalogId = 1 },
+        //            new Product { Name = "Product 2", Price = 200, Description = "Description 2", ImageUrl1 = "https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain", Stock = 20, CatalogId = 2 },
+        //            new Product { Name = "Product 3", Price = 300, Description = "Description 3", ImageUrl1 = "https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain", Stock = 30, CatalogId = 3 },
+        //            new Product { Name = "Product 4", Price = 400, Description = "Description 4", ImageUrl1 = "https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain", Stock = 40, CatalogId = 4 }
+        //        };
 
-                context.Products.AddRange(products);
-                await context.SaveChangesAsync();
-            }
-        }
+        //        context.Products.AddRange(products);
+        //        await context.SaveChangesAsync();
+        //    }
+        //}
     }
 }
