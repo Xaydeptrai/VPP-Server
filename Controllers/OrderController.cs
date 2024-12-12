@@ -206,7 +206,7 @@ namespace vpp_server.Controllers
                 query = query.Where(oh => oh.OrderDate.Date == orderDate.Value.Date);
             }
 
-            if (orderStatus.HasValue)
+            if (orderStatus.HasValue )
             {
                 query = query.Where(oh => oh.OrderStatus == (OrderStatus)orderStatus.Value);
             }

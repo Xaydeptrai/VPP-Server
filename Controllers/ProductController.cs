@@ -204,15 +204,19 @@ namespace vpp_server.Controllers
                     return NotFound(new ResponseDto { IsSuccess = false, Message = "Product not found" });
                 }
 
-                product.Name = productDto.Name;
-                product.Price = productDto.Price;
-                product.Description = productDto.Description;
-                product.ImageUrl1 = productDto.ImageUrl1;
-                product.ImageUrl2 = productDto.ImageUrl2;
-                product.ImageUrl3 = productDto.ImageUrl3;
-                product.ImageUrl4 = productDto.ImageUrl4;
-                product.Stock = productDto.Stock;
-                product.CatalogId = productDto.CatalogId;
+                foreach (var property in typeof(ProductRequestDto).GetProperties())
+                {
+                    var newValue = property.GetValue(productDto);
+                    if (newValue != null) // Chỉ cập nhật nếu giá trị mới không null
+                    {
+                        var productProperty = typeof(Product).GetProperty(property.Name);
+                        if (productProperty != null)
+                        {
+                            productProperty.SetValue(product, newValue);
+                        }
+                    }
+                }
+
                 product.UpdateDate = DateTime.UtcNow;
 
                 _context.Entry(product).State = EntityState.Modified;
