@@ -194,7 +194,7 @@ namespace vpp_server.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductRequestDto productDto)
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] UpdateProductRequestDto productDto)
         {
             try
             {
@@ -204,16 +204,10 @@ namespace vpp_server.Controllers
                     return NotFound(new ResponseDto { IsSuccess = false, Message = "Product not found" });
                 }
 
-                if (productDto.Name != null) product.Name = productDto.Name;
-                if (productDto.Price != null) product.Price = productDto.Price;
-                if (productDto.Description != null) product.Description = productDto.Description;
-                if (productDto.ImageUrl1 != null) product.ImageUrl1 = productDto.ImageUrl1;
-                if (productDto.ImageUrl2 != null) product.ImageUrl2 = productDto.ImageUrl2;
-                if (productDto.ImageUrl3 != null) product.ImageUrl3 = productDto.ImageUrl3;
-                if (productDto.ImageUrl4 != null) product.ImageUrl4 = productDto.ImageUrl4;
-                if (productDto.Stock != null) product.Stock = productDto.Stock;
-                if (productDto.CatalogId != null) product.CatalogId = productDto.CatalogId;
+                // Ánh xạ giá trị từ DTO vào thực thể
+                UpdateEntity(product, productDto);
 
+                // Cập nhật ngày sửa
                 product.UpdateDate = DateTime.UtcNow;
 
                 _context.Entry(product).State = EntityState.Modified;
@@ -250,6 +244,25 @@ namespace vpp_server.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new ResponseDto { IsSuccess = false, Message = ex.Message });
+            }
+        }
+
+        private void UpdateEntity<T, U>(T entity, U dto)
+        {
+            var entityProperties = typeof(T).GetProperties();
+            var dtoProperties = typeof(U).GetProperties();
+
+            foreach (var dtoProperty in dtoProperties)
+            {
+                var value = dtoProperty.GetValue(dto);
+                if (value != null) // Chỉ cập nhật khi giá trị trong DTO không phải null
+                {
+                    var entityProperty = entityProperties.FirstOrDefault(p => p.Name == dtoProperty.Name && p.PropertyType == dtoProperty.PropertyType);
+                    if (entityProperty != null && entityProperty.CanWrite) // Chỉ cập nhật nếu thực thể có thuộc tính tương ứng
+                    {
+                        entityProperty.SetValue(entity, value);
+                    }
+                }
             }
         }
     }
