@@ -192,7 +192,7 @@ namespace vpp_server.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet("admin-orders")]
-        public async Task<IActionResult> GetAllOrdersForAdmin([FromQuery] string? trackingNumber, [FromQuery] DateTime? orderDate, [FromQuery] string? sortBy = "OrderDate", int pageNumber = 1, int pageSize = 10)
+        public async Task<IActionResult> GetAllOrdersForAdmin([FromQuery] string? trackingNumber,[FromQuery] int? orderStatus, [FromQuery] DateTime? orderDate, [FromQuery] string? sortBy = "OrderDate", int pageNumber = 1, int pageSize = 10)
         {
             var query = _context.OrderHeaders.Include(oh => oh.User).AsQueryable();
 
@@ -204,6 +204,11 @@ namespace vpp_server.Controllers
             if (orderDate.HasValue)
             {
                 query = query.Where(oh => oh.OrderDate.Date == orderDate.Value.Date);
+            }
+
+            if (orderStatus.HasValue)
+            {
+                query = query.Where(oh => oh.OrderStatus == (OrderStatus)orderStatus.Value);
             }
 
             query = sortBy switch
