@@ -204,10 +204,7 @@ namespace vpp_server.Controllers
                     return NotFound(new ResponseDto { IsSuccess = false, Message = "Product not found" });
                 }
 
-                // Ánh xạ giá trị từ DTO vào thực thể
                 UpdateEntity(product, productDto);
-
-                // Cập nhật ngày sửa
                 product.UpdateDate = DateTime.UtcNow;
 
                 _context.Entry(product).State = EntityState.Modified;
@@ -232,12 +229,11 @@ namespace vpp_server.Controllers
                 {
                     return NotFound(new ResponseDto { IsSuccess = false, Message = "Product not found" });
                 }
-
-                // Check if the product is part of any order
                 var isProductInOrder = await _context.OrderDetails.AnyAsync(od => od.ProductId == id);
+
                 if (isProductInOrder)
                 {
-                    return BadRequest(new ResponseDto { IsSuccess = false, Message = "Product cannot be deleted as it is part of an order" });
+                    return Ok(new ResponseDto { IsSuccess = false, Message = "Product cannot be deleted as it is part of an order" });
                 }
 
                 _context.Products.Remove(product);
