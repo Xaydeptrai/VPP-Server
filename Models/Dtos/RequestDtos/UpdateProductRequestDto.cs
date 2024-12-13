@@ -10,6 +10,7 @@
         public string? ImageUrl3 { get; set; }
         public string? ImageUrl4 { get; set; }
         public int? Stock { get; set; }
+        public bool? IsDeleted { get; set; }
         public int? CatalogId { get; set; }
     }
 }
