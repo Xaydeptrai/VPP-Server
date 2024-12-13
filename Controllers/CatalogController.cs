@@ -102,10 +102,15 @@ namespace vpp_server.Controllers
         {
             try
             {
-                var catalog = await _context.Catalogs.FindAsync(id);
+                var catalog = await _context.Catalogs.Include(c => c.Products).FirstOrDefaultAsync(c => c.Id == id);
                 if (catalog == null)
                 {
                     return NotFound(new ResponseDto { IsSuccess = false, Message = "Catalog not found" });
+                }
+
+                if (catalog.Products.Any())
+                {
+                    return BadRequest(new ResponseDto { IsSuccess = false, Message = "Catalog cannot be deleted as it contains products" });
                 }
 
                 _context.Catalogs.Remove(catalog);
