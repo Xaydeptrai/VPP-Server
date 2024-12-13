@@ -233,13 +233,10 @@ namespace vpp_server.Controllers
                     return NotFound(new ResponseDto { IsSuccess = false, Message = "Product not found" });
                 }
 
-                product.IsDeleted = true;
-                product.UpdateDate = DateTime.UtcNow;
-
-                _context.Entry(product).State = EntityState.Modified;
+                _context.Products.Remove(product);
                 await _context.SaveChangesAsync();
 
-                return Ok(new ResponseDto { IsSuccess = true, Message = "Product marked as deleted successfully" });
+                return Ok(new ResponseDto { IsSuccess = true, Message = "Product deleted successfully" });
             }
             catch (Exception ex)
             {
@@ -255,10 +252,10 @@ namespace vpp_server.Controllers
             foreach (var dtoProperty in dtoProperties)
             {
                 var value = dtoProperty.GetValue(dto);
-                if (value != null) // Chỉ cập nhật khi giá trị trong DTO không phải null
+                if (value != null)
                 {
                     var entityProperty = entityProperties.FirstOrDefault(p => p.Name == dtoProperty.Name && p.PropertyType == dtoProperty.PropertyType);
-                    if (entityProperty != null && entityProperty.CanWrite) // Chỉ cập nhật nếu thực thể có thuộc tính tương ứng
+                    if (entityProperty != null && entityProperty.CanWrite)
                     {
                         entityProperty.SetValue(entity, value);
                     }
