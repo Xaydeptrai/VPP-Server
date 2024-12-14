@@ -41,6 +41,19 @@ namespace vpp_server.Controllers
                 return BadRequest(new ResponseDto { IsSuccess = false, Message = "Cart is empty." });
             }
 
+            foreach (var cartItem in cart.CartItems)
+            {
+                if (cartItem.Product.Stock < cartItem.Quantity)
+                {
+                    return BadRequest(new ResponseDto { IsSuccess = false, Message = $"Product {cartItem.Product.Name} is out of stock." });
+                }
+            }
+
+            foreach (var cartItem in cart.CartItems)
+            {
+                cartItem.Product.Stock -= cartItem.Quantity;
+            }
+
             var orderHeader = new OrderHeader
             {
                 UserId = userId,
