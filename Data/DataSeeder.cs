@@ -51,9 +51,6 @@ namespace vpp_server.Data
                 {
                     new Catalog { Name = "Bìa hồ sơ", ImageUrl ="https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain"},
                     new Catalog { Name = "Bút viết", ImageUrl ="https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain" },
-                    new Catalog { Name = "Kẹp giấy", ImageUrl ="https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain" },
-                    new Catalog { Name = "Giấy các loại", ImageUrl ="https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain" },
-                    new Catalog { Name = "Dụng cụ khác", ImageUrl ="https://th.bing.com/th/id/OIP.rWo13p-RZA7dWFQGWRfc_gHaE8?rs=1&pid=ImgDetMain" },
                 };
 
                 context.Catalogs.AddRange(catalogs);
