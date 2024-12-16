@@ -205,6 +205,15 @@ namespace vpp_server.Controllers
                 }
 
                 UpdateEntity(product, productDto);
+                if(productDto.CatalogId.HasValue)
+                {
+                    var catalog = await _context.Catalogs.FindAsync(productDto.CatalogId);
+                    if (catalog == null)
+                    {
+                        return NotFound(new ResponseDto { IsSuccess = false, Message = "Catalog not found" });
+                    }
+                    product.CatalogId = productDto.CatalogId.Value;
+                }
                 product.UpdateDate = DateTime.UtcNow;
 
                 _context.Entry(product).State = EntityState.Modified;
