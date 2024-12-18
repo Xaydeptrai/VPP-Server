@@ -213,7 +213,9 @@ namespace vpp_server.Controllers
                         return NotFound(new ResponseDto { IsSuccess = false, Message = "Catalog not found" });
                     }
                     product.CatalogId = productDto.CatalogId.Value;
+                    product.Stock = productDto.Stock.Value;
                 }
+                
                 product.UpdateDate = DateTime.UtcNow;
 
                 _context.Entry(product).State = EntityState.Modified;
