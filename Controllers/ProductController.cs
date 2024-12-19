@@ -198,7 +198,7 @@ namespace vpp_server.Controllers
         {
             try
             {
-                var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products.FindAsync(id);
                 if (product == null)
                 {
                     return NotFound(new ResponseDto { IsSuccess = false, Message = "Product not found" });
@@ -214,7 +214,7 @@ namespace vpp_server.Controllers
                     }
                     product.CatalogId = productDto.CatalogId.Value;
                     product.Stock = productDto.Stock.Value;
-                    product.Price = productDto.Price.Value;
+                    product.Price = (int)productDto.Price.Value;
                 }
                 
                 product.UpdateDate = DateTime.UtcNow;
