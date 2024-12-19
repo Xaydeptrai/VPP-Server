@@ -214,6 +214,7 @@ namespace vpp_server.Controllers
                     }
                     product.CatalogId = productDto.CatalogId.Value;
                     product.Stock = productDto.Stock.Value;
+                    product.Price = productDto.Price.Value;
                 }
                 
                 product.UpdateDate = DateTime.UtcNow;
